@@ -258,15 +258,14 @@ function Dashboard() {
         {/* Série temporal */}
         <Card>
           <CardHeader>
-            <CardTitle>Evolução diária</CardTitle>
+            <CardTitle>Evolução semanal</CardTitle>
           </CardHeader>
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={dia} margin={{ left: 8, right: 24 }}>
+              <LineChart data={semanal} margin={{ left: 8, right: 24 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                 <XAxis
-                  dataKey="data"
-                  tickFormatter={(v) => (v as string).slice(5)}
+                  dataKey="semana"
                   tick={{ fontSize: 11 }}
                 />
                 <YAxis

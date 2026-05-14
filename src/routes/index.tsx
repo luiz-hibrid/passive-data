@@ -177,7 +177,7 @@ function Dashboard() {
                     {etapa.map((e) => (
                       <Cell
                         key={e.etapa}
-                        fill={STAGE_COLORS[e.etapa] ?? "hsl(220 10% 50%)"}
+                        fill={STAGE_COLORS[e.etapa] ?? "#757575"}
                       />
                     ))}
                   </Bar>
@@ -204,7 +204,7 @@ function Dashboard() {
                     {etapa.map((e) => (
                       <Cell
                         key={e.etapa}
-                        fill={STAGE_COLORS[e.etapa] ?? "hsl(220 10% 50%)"}
+                        fill={STAGE_COLORS[e.etapa] ?? "#757575"}
                       />
                     ))}
                   </Pie>
@@ -245,7 +245,7 @@ function Dashboard() {
                   yAxisId="L"
                   type="monotone"
                   dataKey="leads"
-                  stroke="hsl(220 70% 55%)"
+                  stroke="#d60b52"
                   strokeWidth={2}
                   dot={false}
                   name="Leads"
@@ -254,7 +254,7 @@ function Dashboard() {
                   yAxisId="L"
                   type="monotone"
                   dataKey="abandonos"
-                  stroke="hsl(0 70% 55%)"
+                  stroke="#990c3d"
                   strokeWidth={2}
                   dot={false}
                   name="Abandonos"
@@ -263,7 +263,7 @@ function Dashboard() {
                   yAxisId="R"
                   type="monotone"
                   dataKey="vendas"
-                  stroke="hsl(150 70% 40%)"
+                  stroke="#00a27c"
                   strokeWidth={2}
                   dot={{ r: 3 }}
                   name="Vendas"
@@ -419,7 +419,7 @@ function Dashboard() {
                       <Tooltip formatter={(v) => fmt(v as number)} />
                       <Bar
                         dataKey="leads"
-                        fill="hsl(220 70% 55%)"
+                        fill="#d60b52"
                         radius={[0, 6, 6, 0]}
                       />
                     </BarChart>
@@ -457,7 +457,7 @@ function Dashboard() {
                       <Tooltip formatter={(v) => `${v}%`} />
                       <Bar
                         dataKey="conv"
-                        fill="hsl(150 70% 40%)"
+                        fill="#00a27c"
                         radius={[0, 6, 6, 0]}
                       />
                     </BarChart>

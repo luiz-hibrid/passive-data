@@ -14,6 +14,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Legend,
+  ComposedChart,
 } from "recharts";
 import data from "@/data/dashboard.json";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +32,7 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Dashboard de Leads — Checkout · Abril/2026" },
+      { title: "Dashboard de Leads — Checkout · Sem Parar" },
       {
         name: "description",
         content:
@@ -42,10 +43,29 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
-type Etapa = { etapa: string; leads: number };
-type Dia = { data: string; leads: number; vendas: number; abandonos: number };
-type Origem = { origem: string; leads: number; vendas: number };
-type Campanha = {
+type MesEtapa = { mes: string; etapa: string; leads: number };
+type Mensal = {
+  mes: string;
+  leads: number;
+  vendas: number;
+  abandonos: number;
+  erros: number;
+};
+type DiaFull = {
+  mes: string;
+  data: string;
+  leads: number;
+  vendas: number;
+  abandonos: number;
+};
+type OrigemFull = {
+  mes: string;
+  origem: string;
+  leads: number;
+  vendas: number;
+};
+type CampanhaFull = {
+  mes: string;
   campaign: string;
   medium: string;
   leads: number;
@@ -66,15 +86,53 @@ const STAGE_COLORS: Record<string, string> = {
   "Erro ao finalizar pedido": "#e4087e",
 };
 
+const MES_LABELS: Record<string, string> = {
+  "01": "Jan",
+  "02": "Fev",
+  "03": "Mar",
+  "04": "Abr",
+  "05": "Mai",
+  "06": "Jun",
+  "07": "Jul",
+  "08": "Ago",
+  "09": "Set",
+  "10": "Out",
+  "11": "Nov",
+  "12": "Dez",
+};
+const labelMes = (m: string) => {
+  const [y, mm] = m.split("-");
+  return `${MES_LABELS[mm] ?? mm}/${y.slice(2)}`;
+};
+
 const fmt = (n: number) => n.toLocaleString("pt-BR");
 const pct = (n: number, d: number) =>
   d === 0 ? "0,00%" : `${((n / d) * 100).toFixed(2).replace(".", ",")}%`;
 
 function Dashboard() {
-  const etapa = data.etapa as Etapa[];
-  const dia = data.dia as Dia[];
-  const origem = data.origem as Origem[];
-  const campanha = data.campanha as Campanha[];
+  const meses = (data.meses as { mes: string }[]).map((m) => m.mes);
+  const mesEtapa = data.mes_etapa as MesEtapa[];
+  const mensal = data.mensal as Mensal[];
+  const diaFull = data.dia_full as DiaFull[];
+  const origemFull = data.origem_full as OrigemFull[];
+  const campanhaFull = data.campanha_full as CampanhaFull[];
+
+  const [mesFiltro, setMesFiltro] = useState<string>("04"); // Abril por padrão
+  // valor "all" = todos os meses; senão YYYY-MM
+  const mesesAll = ["all", ...meses];
+
+  const filtraMes = <T extends { mes: string }>(arr: T[]) =>
+    mesFiltro === "all" ? arr : arr.filter((r) => r.mes === mesFiltro);
+
+  // ---- Agregados do período selecionado ----
+  const etapa = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const r of filtraMes(mesEtapa))
+      map.set(r.etapa, (map.get(r.etapa) ?? 0) + r.leads);
+    return Array.from(map, ([etapa, leads]) => ({ etapa, leads })).sort(
+      (a, b) => b.leads - a.leads,
+    );
+  }, [mesEtapa, mesFiltro]);
 
   const total = etapa.reduce((s, e) => s + e.leads, 0);
   const vendas = etapa.find((e) => e.etapa === "Venda confirmada")?.leads ?? 0;
@@ -84,38 +142,15 @@ function Dashboard() {
     .filter((e) => e.etapa.startsWith("Erro"))
     .reduce((s, e) => s + e.leads, 0);
 
-  const [search, setSearch] = useState("");
-  const [mediumFilter, setMediumFilter] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"leads" | "vendas" | "conv">("leads");
-
-  const mediums = useMemo(
-    () => Array.from(new Set(campanha.map((c) => c.medium))),
-    [campanha],
-  );
-
-  const filteredCampanhas = useMemo(() => {
-    let rows = campanha.filter(
-      (c) =>
-        c.campaign.toLowerCase().includes(search.toLowerCase()) &&
-        (mediumFilter === "all" || c.medium === mediumFilter),
-    );
-    rows = [...rows].sort((a, b) => {
-      if (sortBy === "leads") return b.leads - a.leads;
-      if (sortBy === "vendas") return b.vendas - a.vendas;
-      return b.vendas / Math.max(b.leads, 1) - a.vendas / Math.max(a.leads, 1);
-    });
-    return rows;
-  }, [campanha, search, mediumFilter, sortBy]);
-
-  // Agrega a evolução diária em semanas (segunda a domingo)
+  // ---- Série semanal do período selecionado ----
   const semanal = useMemo(() => {
     const buckets = new Map<
       string,
       { inicio: string; fim: string; leads: number; vendas: number; abandonos: number }
     >();
-    for (const d of dia) {
+    for (const d of filtraMes(diaFull)) {
       const date = new Date(d.data + "T00:00:00");
-      const dow = (date.getDay() + 6) % 7; // 0 = segunda
+      const dow = (date.getDay() + 6) % 7;
       const start = new Date(date);
       start.setDate(date.getDate() - dow);
       const end = new Date(start);
@@ -139,7 +174,95 @@ function Dashboard() {
     return Array.from(buckets.entries())
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([, v]) => ({ ...v, semana: `${v.inicio}–${v.fim}` }));
-  }, [dia]);
+  }, [diaFull, mesFiltro]);
+
+  // ---- Origens (top 15) ----
+  const origem = useMemo(() => {
+    const map = new Map<string, { leads: number; vendas: number }>();
+    for (const r of filtraMes(origemFull)) {
+      const cur = map.get(r.origem) ?? { leads: 0, vendas: 0 };
+      cur.leads += r.leads;
+      cur.vendas += r.vendas;
+      map.set(r.origem, cur);
+    }
+    return Array.from(map, ([origem, v]) => ({ origem, ...v }))
+      .sort((a, b) => b.leads - a.leads)
+      .slice(0, 15);
+  }, [origemFull, mesFiltro]);
+
+  // ---- Campanhas ----
+  const campanhaAgg = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        campaign: string;
+        medium: string;
+        leads: number;
+        vendas: number;
+        abandonos: number;
+        erros: number;
+      }
+    >();
+    for (const r of filtraMes(campanhaFull)) {
+      const k = r.campaign + "|" + r.medium;
+      const cur =
+        map.get(k) ?? {
+          campaign: r.campaign,
+          medium: r.medium,
+          leads: 0,
+          vendas: 0,
+          abandonos: 0,
+          erros: 0,
+        };
+      cur.leads += r.leads;
+      cur.vendas += r.vendas;
+      cur.abandonos += r.abandonos;
+      cur.erros += r.erros;
+      map.set(k, cur);
+    }
+    return Array.from(map.values());
+  }, [campanhaFull, mesFiltro]);
+
+  const [search, setSearch] = useState("");
+  const [mediumFilter, setMediumFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<"leads" | "vendas" | "conv">("leads");
+
+  const mediums = useMemo(
+    () => Array.from(new Set(campanhaAgg.map((c) => c.medium))),
+    [campanhaAgg],
+  );
+
+  const filteredCampanhas = useMemo(() => {
+    let rows = campanhaAgg.filter(
+      (c) =>
+        c.campaign.toLowerCase().includes(search.toLowerCase()) &&
+        (mediumFilter === "all" || c.medium === mediumFilter),
+    );
+    rows = [...rows].sort((a, b) => {
+      if (sortBy === "leads") return b.leads - a.leads;
+      if (sortBy === "vendas") return b.vendas - a.vendas;
+      return b.vendas / Math.max(b.leads, 1) - a.vendas / Math.max(a.leads, 1);
+    });
+    return rows.slice(0, 50);
+  }, [campanhaAgg, search, mediumFilter, sortBy]);
+
+  // ---- Comparativo M-vs-M (sempre todos os meses) ----
+  const comparativo = useMemo(
+    () =>
+      mensal.map((m) => ({
+        mes: labelMes(m.mes),
+        mesKey: m.mes,
+        leads: m.leads,
+        vendas: m.vendas,
+        abandonos: m.abandonos,
+        erros: m.erros,
+        conv: Number(((m.vendas / Math.max(m.leads, 1)) * 100).toFixed(2)),
+      })),
+    [mensal],
+  );
+
+  const labelPeriodo =
+    mesFiltro === "all" ? "Todo o período" : labelMes(`2026-${mesFiltro}`);
 
   return (
     <div className="min-h-screen bg-background">
@@ -148,7 +271,7 @@ function Dashboard() {
         style={{ background: "linear-gradient(135deg,#990c3d,#d60b52)" }}
       >
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-end justify-between flex-wrap gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-white/80">
                 Sem Parar Empresas
@@ -157,12 +280,26 @@ function Dashboard() {
                 Dashboard de Leads · Checkout
               </h1>
               <p className="text-sm text-white/85 mt-3">
-                Período: 01/04/2026 — 30/04/2026 · Fonte: Pipe Tag
+                Fonte: Pipe Tag · Base de 95.036 leads (Jan–Mai/2026)
               </p>
             </div>
-            <Badge className="text-sm bg-white text-primary hover:bg-white rounded-full px-4 py-1.5">
-              {fmt(total)} leads no período
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Badge className="text-sm bg-white/15 text-white hover:bg-white/15 rounded-full px-4 py-1.5 border border-white/30">
+                {fmt(total)} leads · {labelPeriodo}
+              </Badge>
+              <Select value={mesFiltro} onValueChange={setMesFiltro}>
+                <SelectTrigger className="w-44 bg-white text-foreground">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {mesesAll.map((m) => (
+                    <SelectItem key={m} value={m === "all" ? "all" : m.slice(5)}>
+                      {m === "all" ? "Todos os meses" : labelMes(m)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </header>
@@ -191,16 +328,76 @@ function Dashboard() {
           />
         </section>
 
-        {/* Funnel + Distribuição */}
+        {/* Comparativo Mensal */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Comparativo mês a mês — todo o período</CardTitle>
+            <span className="text-xs text-muted-foreground">
+              Barras: leads · Linha: conversão (%)
+            </span>
+          </CardHeader>
+          <CardContent className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={comparativo} margin={{ left: 8, right: 16 }}>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                <XAxis dataKey="mes" tick={{ fontSize: 12 }} />
+                <YAxis
+                  yAxisId="L"
+                  tickFormatter={(v) => fmt(v as number)}
+                  tick={{ fontSize: 11 }}
+                />
+                <YAxis
+                  yAxisId="R"
+                  orientation="right"
+                  tick={{ fontSize: 11 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <Tooltip
+                  formatter={(v, name) =>
+                    name === "Conversão %"
+                      ? `${v}%`
+                      : fmt(v as number)
+                  }
+                />
+                <Legend />
+                <Bar
+                  yAxisId="L"
+                  dataKey="leads"
+                  fill="#d60b52"
+                  name="Leads"
+                  radius={[6, 6, 0, 0]}
+                />
+                <Bar
+                  yAxisId="L"
+                  dataKey="vendas"
+                  fill="#00a27c"
+                  name="Vendas"
+                  radius={[6, 6, 0, 0]}
+                />
+                <Line
+                  yAxisId="R"
+                  type="monotone"
+                  dataKey="conv"
+                  stroke="#1f4b6e"
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                  name="Conversão %"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Funil + Distribuição */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>Funil por etapa</CardTitle>
+              <CardTitle>Funil por etapa — {labelPeriodo}</CardTitle>
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={[...etapa].sort((a, b) => b.leads - a.leads)}
+                  data={etapa}
                   layout="vertical"
                   margin={{ left: 40, right: 24 }}
                 >
@@ -258,16 +455,13 @@ function Dashboard() {
         {/* Série temporal */}
         <Card>
           <CardHeader>
-            <CardTitle>Evolução semanal</CardTitle>
+            <CardTitle>Evolução semanal — {labelPeriodo}</CardTitle>
           </CardHeader>
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={semanal} margin={{ left: 8, right: 24 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                <XAxis
-                  dataKey="semana"
-                  tick={{ fontSize: 11 }}
-                />
+                <XAxis dataKey="semana" tick={{ fontSize: 11 }} />
                 <YAxis
                   yAxisId="L"
                   tickFormatter={(v) => fmt(v as number)}
@@ -322,7 +516,9 @@ function Dashboard() {
           <TabsContent value="campanhas" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Campanhas — leads, vendas e conversão</CardTitle>
+                <CardTitle>
+                  Campanhas — leads, vendas e conversão · {labelPeriodo}
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-3">
@@ -358,6 +554,9 @@ function Dashboard() {
                       <SelectItem value="conv">Ordenar por conversão</SelectItem>
                     </SelectContent>
                   </Select>
+                  <span className="text-xs text-muted-foreground self-center ml-auto">
+                    Mostrando até 50 campanhas
+                  </span>
                 </div>
 
                 <div className="overflow-x-auto rounded-md border">
@@ -435,7 +634,7 @@ function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Origem / Mídia — Volume</CardTitle>
+                  <CardTitle>Origem / Mídia — Volume · {labelPeriodo}</CardTitle>
                 </CardHeader>
                 <CardContent className="h-96">
                   <ResponsiveContainer width="100%" height="100%">
@@ -456,11 +655,7 @@ function Dashboard() {
                         tick={{ fontSize: 11 }}
                       />
                       <Tooltip formatter={(v) => fmt(v as number)} />
-                      <Bar
-                        dataKey="leads"
-                        fill="#d60b52"
-                        radius={[0, 6, 6, 0]}
-                      />
+                      <Bar dataKey="leads" fill="#d60b52" radius={[0, 6, 6, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -483,10 +678,7 @@ function Dashboard() {
                       margin={{ left: 16, right: 16 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                      <XAxis
-                        type="number"
-                        tickFormatter={(v) => `${v}%`}
-                      />
+                      <XAxis type="number" tickFormatter={(v) => `${v}%`} />
                       <YAxis
                         type="category"
                         dataKey="origem"
@@ -494,11 +686,7 @@ function Dashboard() {
                         tick={{ fontSize: 11 }}
                       />
                       <Tooltip formatter={(v) => `${v}%`} />
-                      <Bar
-                        dataKey="conv"
-                        fill="#00a27c"
-                        radius={[0, 6, 6, 0]}
-                      />
+                      <Bar dataKey="conv" fill="#00a27c" radius={[0, 6, 6, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -539,9 +727,7 @@ function KPI({
         <p className={`font-display text-4xl font-extrabold mt-2 tabular-nums ${toneClass}`}>
           {value}
         </p>
-        {hint && (
-          <p className="text-xs text-muted-foreground mt-1">{hint}</p>
-        )}
+        {hint && <p className="text-xs text-muted-foreground mt-1">{hint}</p>}
       </CardContent>
     </Card>
   );

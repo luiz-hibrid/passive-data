@@ -109,18 +109,24 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto max-w-7xl px-6 py-6">
+      <header
+        className="border-b text-white"
+        style={{ background: "linear-gradient(135deg,#990c3d,#d60b52)" }}
+      >
+        <div className="mx-auto max-w-7xl px-6 py-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                Dashboard de Leads — Checkout
+              <p className="text-xs uppercase tracking-[0.2em] text-white/80">
+                Sem Parar Empresas
+              </p>
+              <h1 className="font-display text-4xl md:text-5xl font-extrabold uppercase leading-none mt-2">
+                Dashboard de Leads · Checkout
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-white/85 mt-3">
                 Período: 01/04/2026 — 30/04/2026 · Fonte: Pipe Tag
               </p>
             </div>
-            <Badge variant="secondary" className="text-sm">
+            <Badge className="text-sm bg-white text-primary hover:bg-white rounded-full px-4 py-1.5">
               {fmt(total)} leads no período
             </Badge>
           </div>

@@ -55,15 +55,15 @@ type Campanha = {
 };
 
 const STAGE_COLORS: Record<string, string> = {
-  "Abandono de carrinho": "hsl(0 70% 55%)",
-  "Aprovado pelo Motor de crédito": "hsl(140 60% 45%)",
-  "Encaminhado para área logada": "hsl(200 70% 50%)",
-  "Erro ao verificar CNPJ": "hsl(20 80% 55%)",
-  "Erro ao validar dados de pagamento": "hsl(35 85% 55%)",
-  "Aprovados em observação": "hsl(170 50% 45%)",
-  "Reprovado pelo Motor de crédito": "hsl(350 65% 50%)",
-  "Venda confirmada": "hsl(150 70% 40%)",
-  "Erro ao finalizar pedido": "hsl(10 75% 55%)",
+  "Abandono de carrinho": "#990c3d",
+  "Aprovado pelo Motor de crédito": "#00a27c",
+  "Encaminhado para área logada": "#1f4b6e",
+  "Erro ao verificar CNPJ": "#f07d00",
+  "Erro ao validar dados de pagamento": "#c54408",
+  "Aprovados em observação": "#b3e2ea",
+  "Reprovado pelo Motor de crédito": "#dc3545",
+  "Venda confirmada": "#d60b52",
+  "Erro ao finalizar pedido": "#e4087e",
 };
 
 const fmt = (n: number) => n.toLocaleString("pt-BR");

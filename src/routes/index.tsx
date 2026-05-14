@@ -369,7 +369,7 @@ function Dashboard() {
                               <span
                                 className={
                                   conv >= 0.025
-                                    ? "text-emerald-600 font-medium"
+                                    ? "text-[color:var(--success)] font-medium"
                                     : conv >= 0.015
                                       ? "text-foreground"
                                       : "text-destructive"

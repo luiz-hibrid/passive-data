@@ -491,19 +491,19 @@ function KPI({
 }) {
   const toneClass =
     tone === "success"
-      ? "text-emerald-600"
+      ? "text-[color:var(--success)]"
       : tone === "warning"
-        ? "text-amber-600"
+        ? "text-[color:var(--warning)]"
         : tone === "danger"
-          ? "text-destructive"
+          ? "text-primary"
           : "text-foreground";
   return (
-    <Card>
+    <Card className="shadow-[var(--shadow-card-soft)] border-border/60">
       <CardContent className="pt-6">
-        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+        <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold">
           {label}
         </p>
-        <p className={`text-3xl font-bold mt-1 tabular-nums ${toneClass}`}>
+        <p className={`font-display text-4xl font-extrabold mt-2 tabular-nums ${toneClass}`}>
           {value}
         </p>
         {hint && (

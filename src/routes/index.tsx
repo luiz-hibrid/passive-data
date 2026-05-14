@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
   Legend,
   ComposedChart,
+  LabelList,
 } from "recharts";
 import data from "@/data/dashboard.json";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -417,6 +418,14 @@ function Dashboard() {
                         fill={STAGE_COLORS[e.etapa] ?? "#757575"}
                       />
                     ))}
+                    <LabelList
+                      dataKey="leads"
+                      position="insideRight"
+                      formatter={(v: number) => fmt(v)}
+                      fill="#fff"
+                      fontSize={12}
+                      fontWeight={600}
+                    />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>

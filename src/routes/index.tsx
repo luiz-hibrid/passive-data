@@ -118,7 +118,7 @@ function Dashboard() {
   const origemFull = data.origem_full as OrigemFull[];
   const campanhaFull = data.campanha_full as CampanhaFull[];
 
-  const [mesFiltro, setMesFiltro] = useState<string>("04"); // Abril por padrão
+  const [mesFiltro, setMesFiltro] = useState<string>("2026-04"); // Abril por padrão
   // valor "all" = todos os meses; senão YYYY-MM
   const mesesAll = ["all", ...meses];
 
@@ -263,7 +263,7 @@ function Dashboard() {
   );
 
   const labelPeriodo =
-    mesFiltro === "all" ? "Todo o período" : labelMes(`2026-${mesFiltro}`);
+    mesFiltro === "all" ? "Todo o período" : labelMes(mesFiltro);
 
   return (
     <div className="min-h-screen bg-background">
@@ -294,7 +294,7 @@ function Dashboard() {
                 </SelectTrigger>
                 <SelectContent>
                   {mesesAll.map((m) => (
-                    <SelectItem key={m} value={m === "all" ? "all" : m.slice(5)}>
+                    <SelectItem key={m} value={m}>
                       {m === "all" ? "Todos os meses" : labelMes(m)}
                     </SelectItem>
                   ))}

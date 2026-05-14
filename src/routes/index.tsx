@@ -107,6 +107,40 @@ function Dashboard() {
     return rows;
   }, [campanha, search, mediumFilter, sortBy]);
 
+  // Agrega a evolução diária em semanas (segunda a domingo)
+  const semanal = useMemo(() => {
+    const buckets = new Map<
+      string,
+      { inicio: string; fim: string; leads: number; vendas: number; abandonos: number }
+    >();
+    for (const d of dia) {
+      const date = new Date(d.data + "T00:00:00");
+      const dow = (date.getDay() + 6) % 7; // 0 = segunda
+      const start = new Date(date);
+      start.setDate(date.getDate() - dow);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      const key = start.toISOString().slice(0, 10);
+      const fmtBR = (dt: Date) =>
+        `${String(dt.getDate()).padStart(2, "0")}/${String(dt.getMonth() + 1).padStart(2, "0")}`;
+      const cur =
+        buckets.get(key) ?? {
+          inicio: fmtBR(start),
+          fim: fmtBR(end),
+          leads: 0,
+          vendas: 0,
+          abandonos: 0,
+        };
+      cur.leads += d.leads;
+      cur.vendas += d.vendas;
+      cur.abandonos += d.abandonos;
+      buckets.set(key, cur);
+    }
+    return Array.from(buckets.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([, v]) => ({ ...v, semana: `${v.inicio}–${v.fim}` }));
+  }, [dia]);
+
   return (
     <div className="min-h-screen bg-background">
       <header

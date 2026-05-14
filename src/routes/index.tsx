@@ -55,15 +55,15 @@ type Campanha = {
 };
 
 const STAGE_COLORS: Record<string, string> = {
-  "Abandono de carrinho": "hsl(0 70% 55%)",
-  "Aprovado pelo Motor de crédito": "hsl(140 60% 45%)",
-  "Encaminhado para área logada": "hsl(200 70% 50%)",
-  "Erro ao verificar CNPJ": "hsl(20 80% 55%)",
-  "Erro ao validar dados de pagamento": "hsl(35 85% 55%)",
-  "Aprovados em observação": "hsl(170 50% 45%)",
-  "Reprovado pelo Motor de crédito": "hsl(350 65% 50%)",
-  "Venda confirmada": "hsl(150 70% 40%)",
-  "Erro ao finalizar pedido": "hsl(10 75% 55%)",
+  "Abandono de carrinho": "#990c3d",
+  "Aprovado pelo Motor de crédito": "#00a27c",
+  "Encaminhado para área logada": "#1f4b6e",
+  "Erro ao verificar CNPJ": "#f07d00",
+  "Erro ao validar dados de pagamento": "#c54408",
+  "Aprovados em observação": "#b3e2ea",
+  "Reprovado pelo Motor de crédito": "#dc3545",
+  "Venda confirmada": "#d60b52",
+  "Erro ao finalizar pedido": "#e4087e",
 };
 
 const fmt = (n: number) => n.toLocaleString("pt-BR");
@@ -109,18 +109,24 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto max-w-7xl px-6 py-6">
+      <header
+        className="border-b text-white"
+        style={{ background: "linear-gradient(135deg,#990c3d,#d60b52)" }}
+      >
+        <div className="mx-auto max-w-7xl px-6 py-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                Dashboard de Leads — Checkout
+              <p className="text-xs uppercase tracking-[0.2em] text-white/80">
+                Sem Parar Empresas
+              </p>
+              <h1 className="font-display text-4xl md:text-5xl font-extrabold uppercase leading-none mt-2">
+                Dashboard de Leads · Checkout
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-white/85 mt-3">
                 Período: 01/04/2026 — 30/04/2026 · Fonte: Pipe Tag
               </p>
             </div>
-            <Badge variant="secondary" className="text-sm">
+            <Badge className="text-sm bg-white text-primary hover:bg-white rounded-full px-4 py-1.5">
               {fmt(total)} leads no período
             </Badge>
           </div>
@@ -177,7 +183,7 @@ function Dashboard() {
                     {etapa.map((e) => (
                       <Cell
                         key={e.etapa}
-                        fill={STAGE_COLORS[e.etapa] ?? "hsl(220 10% 50%)"}
+                        fill={STAGE_COLORS[e.etapa] ?? "#757575"}
                       />
                     ))}
                   </Bar>
@@ -204,7 +210,7 @@ function Dashboard() {
                     {etapa.map((e) => (
                       <Cell
                         key={e.etapa}
-                        fill={STAGE_COLORS[e.etapa] ?? "hsl(220 10% 50%)"}
+                        fill={STAGE_COLORS[e.etapa] ?? "#757575"}
                       />
                     ))}
                   </Pie>
@@ -245,7 +251,7 @@ function Dashboard() {
                   yAxisId="L"
                   type="monotone"
                   dataKey="leads"
-                  stroke="hsl(220 70% 55%)"
+                  stroke="#d60b52"
                   strokeWidth={2}
                   dot={false}
                   name="Leads"
@@ -254,7 +260,7 @@ function Dashboard() {
                   yAxisId="L"
                   type="monotone"
                   dataKey="abandonos"
-                  stroke="hsl(0 70% 55%)"
+                  stroke="#990c3d"
                   strokeWidth={2}
                   dot={false}
                   name="Abandonos"
@@ -263,7 +269,7 @@ function Dashboard() {
                   yAxisId="R"
                   type="monotone"
                   dataKey="vendas"
-                  stroke="hsl(150 70% 40%)"
+                  stroke="#00a27c"
                   strokeWidth={2}
                   dot={{ r: 3 }}
                   name="Vendas"
@@ -363,7 +369,7 @@ function Dashboard() {
                               <span
                                 className={
                                   conv >= 0.025
-                                    ? "text-emerald-600 font-medium"
+                                    ? "text-[color:var(--success)] font-medium"
                                     : conv >= 0.015
                                       ? "text-foreground"
                                       : "text-destructive"
@@ -419,7 +425,7 @@ function Dashboard() {
                       <Tooltip formatter={(v) => fmt(v as number)} />
                       <Bar
                         dataKey="leads"
-                        fill="hsl(220 70% 55%)"
+                        fill="#d60b52"
                         radius={[0, 6, 6, 0]}
                       />
                     </BarChart>
@@ -457,7 +463,7 @@ function Dashboard() {
                       <Tooltip formatter={(v) => `${v}%`} />
                       <Bar
                         dataKey="conv"
-                        fill="hsl(150 70% 40%)"
+                        fill="#00a27c"
                         radius={[0, 6, 6, 0]}
                       />
                     </BarChart>
@@ -485,19 +491,19 @@ function KPI({
 }) {
   const toneClass =
     tone === "success"
-      ? "text-emerald-600"
+      ? "text-[color:var(--success)]"
       : tone === "warning"
-        ? "text-amber-600"
+        ? "text-[color:var(--warning)]"
         : tone === "danger"
-          ? "text-destructive"
+          ? "text-primary"
           : "text-foreground";
   return (
-    <Card>
+    <Card className="shadow-[var(--shadow-card-soft)] border-border/60">
       <CardContent className="pt-6">
-        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+        <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold">
           {label}
         </p>
-        <p className={`text-3xl font-bold mt-1 tabular-nums ${toneClass}`}>
+        <p className={`font-display text-4xl font-extrabold mt-2 tabular-nums ${toneClass}`}>
           {value}
         </p>
         {hint && (

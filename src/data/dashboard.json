@@ -1,0 +1,541 @@
+{
+  "etapa": [
+    {
+      "etapa": "Abandono de carrinho",
+      "leads": 19111
+    },
+    {
+      "etapa": "Aprovado pelo Motor de crédito",
+      "leads": 2003
+    },
+    {
+      "etapa": "Encaminhado para área logada",
+      "leads": 1191
+    },
+    {
+      "etapa": "Erro ao verificar CNPJ",
+      "leads": 948
+    },
+    {
+      "etapa": "Erro ao validar dados de pagamento",
+      "leads": 692
+    },
+    {
+      "etapa": "Aprovados em observação",
+      "leads": 448
+    },
+    {
+      "etapa": "Reprovado pelo Motor de crédito",
+      "leads": 427
+    },
+    {
+      "etapa": "Venda confirmada",
+      "leads": 406
+    },
+    {
+      "etapa": "Erro ao finalizar pedido",
+      "leads": 304
+    }
+  ],
+  "dia": [
+    {
+      "data": "2026-04-01",
+      "leads": 1114,
+      "vendas": 12,
+      "abandonos": 870
+    },
+    {
+      "data": "2026-04-02",
+      "leads": 856,
+      "vendas": 9,
+      "abandonos": 671
+    },
+    {
+      "data": "2026-04-03",
+      "leads": 453,
+      "vendas": 8,
+      "abandonos": 355
+    },
+    {
+      "data": "2026-04-04",
+      "leads": 388,
+      "vendas": 6,
+      "abandonos": 287
+    },
+    {
+      "data": "2026-04-05",
+      "leads": 377,
+      "vendas": 4,
+      "abandonos": 309
+    },
+    {
+      "data": "2026-04-06",
+      "leads": 970,
+      "vendas": 12,
+      "abandonos": 743
+    },
+    {
+      "data": "2026-04-07",
+      "leads": 1012,
+      "vendas": 17,
+      "abandonos": 779
+    },
+    {
+      "data": "2026-04-08",
+      "leads": 1020,
+      "vendas": 22,
+      "abandonos": 766
+    },
+    {
+      "data": "2026-04-09",
+      "leads": 862,
+      "vendas": 19,
+      "abandonos": 638
+    },
+    {
+      "data": "2026-04-10",
+      "leads": 656,
+      "vendas": 15,
+      "abandonos": 487
+    },
+    {
+      "data": "2026-04-11",
+      "leads": 313,
+      "vendas": 6,
+      "abandonos": 224
+    },
+    {
+      "data": "2026-04-12",
+      "leads": 367,
+      "vendas": 7,
+      "abandonos": 288
+    },
+    {
+      "data": "2026-04-13",
+      "leads": 870,
+      "vendas": 7,
+      "abandonos": 659
+    },
+    {
+      "data": "2026-04-14",
+      "leads": 1863,
+      "vendas": 26,
+      "abandonos": 1353
+    },
+    {
+      "data": "2026-04-15",
+      "leads": 1063,
+      "vendas": 21,
+      "abandonos": 766
+    },
+    {
+      "data": "2026-04-16",
+      "leads": 972,
+      "vendas": 17,
+      "abandonos": 706
+    },
+    {
+      "data": "2026-04-17",
+      "leads": 860,
+      "vendas": 12,
+      "abandonos": 628
+    },
+    {
+      "data": "2026-04-18",
+      "leads": 576,
+      "vendas": 17,
+      "abandonos": 426
+    },
+    {
+      "data": "2026-04-19",
+      "leads": 524,
+      "vendas": 7,
+      "abandonos": 375
+    },
+    {
+      "data": "2026-04-20",
+      "leads": 785,
+      "vendas": 11,
+      "abandonos": 582
+    },
+    {
+      "data": "2026-04-21",
+      "leads": 461,
+      "vendas": 10,
+      "abandonos": 343
+    },
+    {
+      "data": "2026-04-22",
+      "leads": 862,
+      "vendas": 15,
+      "abandonos": 626
+    },
+    {
+      "data": "2026-04-23",
+      "leads": 1132,
+      "vendas": 15,
+      "abandonos": 879
+    },
+    {
+      "data": "2026-04-24",
+      "leads": 1110,
+      "vendas": 16,
+      "abandonos": 826
+    },
+    {
+      "data": "2026-04-25",
+      "leads": 606,
+      "vendas": 12,
+      "abandonos": 464
+    },
+    {
+      "data": "2026-04-26",
+      "leads": 646,
+      "vendas": 9,
+      "abandonos": 499
+    },
+    {
+      "data": "2026-04-27",
+      "leads": 1182,
+      "vendas": 15,
+      "abandonos": 902
+    },
+    {
+      "data": "2026-04-28",
+      "leads": 1623,
+      "vendas": 23,
+      "abandonos": 1179
+    },
+    {
+      "data": "2026-04-29",
+      "leads": 1130,
+      "vendas": 19,
+      "abandonos": 839
+    },
+    {
+      "data": "2026-04-30",
+      "leads": 877,
+      "vendas": 17,
+      "abandonos": 642
+    }
+  ],
+  "origem": [
+    {
+      "origem": "google / cpc",
+      "leads": 11023,
+      "vendas": 168
+    },
+    {
+      "origem": "facebook / cpc",
+      "leads": 7915,
+      "vendas": 113
+    },
+    {
+      "origem": "/",
+      "leads": 4500,
+      "vendas": 94
+    },
+    {
+      "origem": "whatsapp / whatsapp",
+      "leads": 480,
+      "vendas": 0
+    },
+    {
+      "origem": "semparar_b2c / referral",
+      "leads": 454,
+      "vendas": 14
+    },
+    {
+      "origem": "whatsapp_take / whatsapp",
+      "leads": 444,
+      "vendas": 5
+    },
+    {
+      "origem": "Bing / CPC",
+      "leads": 407,
+      "vendas": 8
+    },
+    {
+      "origem": "fb / paid",
+      "leads": 137,
+      "vendas": 2
+    },
+    {
+      "origem": "email_promo / email",
+      "leads": 72,
+      "vendas": 1
+    },
+    {
+      "origem": "Google / CPC",
+      "leads": 40,
+      "vendas": 0
+    },
+    {
+      "origem": "google / ads",
+      "leads": 14,
+      "vendas": 1
+    },
+    {
+      "origem": "chatgpt.com /",
+      "leads": 9,
+      "vendas": 0
+    },
+    {
+      "origem": "googleads / cpc",
+      "leads": 8,
+      "vendas": 0
+    },
+    {
+      "origem": "app / in_app",
+      "leads": 6,
+      "vendas": 0
+    },
+    {
+      "origem": "instagram / perfil",
+      "leads": 6,
+      "vendas": 0
+    }
+  ],
+  "campanha": [
+    {
+      "campaign": "(sem campaign)",
+      "medium": "(sem medium)",
+      "leads": 4453,
+      "vendas": 90,
+      "abandonos": 2860,
+      "erros": 546
+    },
+    {
+      "campaign": "pmaxtag",
+      "medium": "cpc",
+      "leads": 4146,
+      "vendas": 46,
+      "abandonos": 3544,
+      "erros": 140
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Plano Rodovias Flex — Publico Advantage +",
+      "medium": "cpc",
+      "leads": 2826,
+      "vendas": 23,
+      "abandonos": 2396,
+      "erros": 141
+    },
+    {
+      "campaign": "(sem campaign)",
+      "medium": "cpc",
+      "leads": 2416,
+      "vendas": 28,
+      "abandonos": 2049,
+      "erros": 99
+    },
+    {
+      "campaign": "instspe",
+      "medium": "cpc",
+      "leads": 1375,
+      "vendas": 45,
+      "abandonos": 764,
+      "erros": 150
+    },
+    {
+      "campaign": "blip_messages",
+      "medium": "cpc",
+      "leads": 1356,
+      "vendas": 20,
+      "abandonos": 991,
+      "erros": 147
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Empresarial l Publico Advantage +",
+      "medium": "cpc",
+      "leads": 1215,
+      "vendas": 15,
+      "abandonos": 926,
+      "erros": 112
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Vale-Pedagio",
+      "medium": "cpc",
+      "leads": 978,
+      "vendas": 25,
+      "abandonos": 602,
+      "erros": 110
+    },
+    {
+      "campaign": "searchinst",
+      "medium": "cpc",
+      "leads": 852,
+      "vendas": 13,
+      "abandonos": 686,
+      "erros": 47
+    },
+    {
+      "campaign": "searchrela",
+      "medium": "cpc",
+      "leads": 675,
+      "vendas": 21,
+      "abandonos": 365,
+      "erros": 82
+    },
+    {
+      "campaign": "rodovias",
+      "medium": "cpc",
+      "leads": 535,
+      "vendas": 5,
+      "abandonos": 434,
+      "erros": 31
+    },
+    {
+      "campaign": "(sem campaign)",
+      "medium": "whatsapp",
+      "leads": 480,
+      "vendas": 0,
+      "abandonos": 472,
+      "erros": 0
+    },
+    {
+      "campaign": "recuperacao_carrinho",
+      "medium": "whatsapp",
+      "leads": 444,
+      "vendas": 5,
+      "abandonos": 320,
+      "erros": 44
+    },
+    {
+      "campaign": "Remarketing",
+      "medium": "cpc",
+      "leads": 404,
+      "vendas": 3,
+      "abandonos": 315,
+      "erros": 23
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Plano Rodovias Flex — Publico Advantage",
+      "medium": "cpc",
+      "leads": 388,
+      "vendas": 2,
+      "abandonos": 341,
+      "erros": 13
+    },
+    {
+      "campaign": "BG_SPE_PMAX_Conversao_Tag_Site",
+      "medium": "CPC",
+      "leads": 365,
+      "vendas": 8,
+      "abandonos": 250,
+      "erros": 24
+    },
+    {
+      "campaign": "searchrela2",
+      "medium": "cpc",
+      "leads": 354,
+      "vendas": 6,
+      "abandonos": 283,
+      "erros": 17
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Brandformance",
+      "medium": "cpc",
+      "leads": 318,
+      "vendas": 7,
+      "abandonos": 231,
+      "erros": 34
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Plano Rodovias - Publico Advantage+",
+      "medium": "cpc",
+      "leads": 262,
+      "vendas": 6,
+      "abandonos": 175,
+      "erros": 32
+    },
+    {
+      "campaign": "botao_menu_semparar_b2c",
+      "medium": "referral",
+      "leads": 239,
+      "vendas": 8,
+      "abandonos": 128,
+      "erros": 22
+    },
+    {
+      "campaign": "modal_checkout_semparar_b2c",
+      "medium": "referral",
+      "leads": 215,
+      "vendas": 6,
+      "abandonos": 106,
+      "erros": 26
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Remarketing",
+      "medium": "cpc",
+      "leads": 188,
+      "vendas": 9,
+      "abandonos": 129,
+      "erros": 20
+    },
+    {
+      "campaign": "FB - 203 - WG l Vendas Web l Empresarial l Publico Advantage",
+      "medium": "cpc",
+      "leads": 150,
+      "vendas": 1,
+      "abandonos": 120,
+      "erros": 10
+    },
+    {
+      "campaign": "WG_SemPararEmpresas_DemandGen_Conversao_Tag_Site",
+      "medium": "cpc",
+      "leads": 128,
+      "vendas": 0,
+      "abandonos": 88,
+      "erros": 12
+    },
+    {
+      "campaign": "120208399639640203",
+      "medium": "paid",
+      "leads": 109,
+      "vendas": 2,
+      "abandonos": 92,
+      "erros": 6
+    },
+    {
+      "campaign": "valepedagio_Transportador_Institucional",
+      "medium": "cpc",
+      "leads": 64,
+      "vendas": 1,
+      "abandonos": 37,
+      "erros": 7
+    },
+    {
+      "campaign": "WG_SemPararEmpresas_DemandGen_Conversao_TLV",
+      "medium": "cpc",
+      "leads": 61,
+      "vendas": 0,
+      "abandonos": 48,
+      "erros": 7
+    },
+    {
+      "campaign": "{{campaign.name}}",
+      "medium": "cpc",
+      "leads": 42,
+      "vendas": 1,
+      "abandonos": 31,
+      "erros": 0
+    },
+    {
+      "campaign": "BG_SPE_Search_Conversao_Tag_Relacionados_Site",
+      "medium": "CPC",
+      "leads": 42,
+      "vendas": 0,
+      "abandonos": 30,
+      "erros": 1
+    },
+    {
+      "campaign": "adesao_abr26",
+      "medium": "email",
+      "leads": 37,
+      "vendas": 0,
+      "abandonos": 25,
+      "erros": 3
+    }
+  ]
+}

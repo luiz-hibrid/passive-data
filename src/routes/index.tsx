@@ -30,6 +30,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const MEDIUM_COLORS: Record<string, string> = {
+  cpc: "bg-blue-100 text-blue-800 border-blue-300",
+  ads: "bg-indigo-100 text-indigo-800 border-indigo-300",
+  paid: "bg-cyan-100 text-cyan-800 border-cyan-300",
+  whatsapp: "bg-green-100 text-green-800 border-green-300",
+  email: "bg-violet-100 text-violet-800 border-violet-300",
+  socialmedia: "bg-pink-100 text-pink-800 border-pink-300",
+  influencer: "bg-orange-100 text-orange-800 border-orange-300",
+  referral: "bg-amber-100 text-amber-800 border-amber-300",
+  in_app: "bg-teal-100 text-teal-800 border-teal-300",
+  banner: "bg-rose-100 text-rose-800 border-rose-300",
+  filipeta: "bg-lime-100 text-lime-800 border-lime-300",
+  rntrc: "bg-slate-200 text-slate-800 border-slate-400",
+  perfil: "bg-sky-100 text-sky-800 border-sky-300",
+};
+
+function getMediumClass(medium: string): string {
+  const key = medium.toLowerCase().trim();
+  if (key === "(sem medium)") return "bg-gray-100 text-gray-500 border-gray-300";
+  if (key.startsWith("banner")) return MEDIUM_COLORS.banner;
+  if (key.startsWith("base-") || key.startsWith("sp_")) return "bg-stone-100 text-stone-700 border-stone-300";
+  return MEDIUM_COLORS[key] ?? "bg-gray-100 text-gray-600 border-gray-300";
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -592,7 +616,7 @@ function Dashboard() {
                               {c.campaign}
                             </td>
                             <td className="px-3 py-2">
-                              <Badge variant="outline">{c.medium}</Badge>
+                              <Badge className={getMediumClass(c.medium)}>{c.medium}</Badge>
                             </td>
                             <td className="px-3 py-2 text-right tabular-nums">
                               {fmt(c.leads)}
